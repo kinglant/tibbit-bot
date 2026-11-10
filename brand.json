@@ -1,0 +1,53 @@
+{
+  "name": "Tibbit",
+  "tagline": "Klinikangiz uchun raqamli ekotizim",
+  "slogan": "Bitta savol. Bitta sabab. Bitta yechim.",
+  "bot_username": "Tibbit_uz_bot",
+  "telegram": "https://t.me/tibbituzb",
+  "instagram": "https://instagram.com/tibbit.uz",
+  "threads": "https://www.threads.net/@tibbit.uz",
+  "routine_cut": 0.4,
+  "pains": [
+    {"old": "Bemor qo'ng'iroq qildi — yetib kelmadi", "new": "Onlayn yozuv va navbat"},
+    {"old": "Jurnal qog'ozda turibdi, topib bo'lmaydi", "new": "Elektron tibbiy karta"},
+    {"old": "Foyda bor, lekin qayerda?", "new": "Real vaqtdagi dashboard"},
+    {"old": "«Buni faqat administratorimiz biladi»", "new": "Barcha jarayon bitta tizimda"}
+  ],
+  "modules": [
+    {"id": "queue", "icon": "📅", "name": "Onlayn yozuv va navbat", "short": "Bemor o'zi yoziladi, navbat avtomatik", "text": "Bemor Telegram yoki sayt orqali mos shifokor va vaqtni tanlaydi. Navbat avtomatik tuziladi, qabuldan oldin eslatma yuboriladi — kelmay qolishlar kamayadi."},
+    {"id": "emr", "icon": "🗂", "name": "Elektron tibbiy karta", "short": "Bemorning butun tarixi bir joyda", "text": "Har bir bemor raqamlashtirilgan: tashxislar, tayinlovlar, tahlillar va tashriflar tarixi bitta kartada. Qog'oz jurnal va yo'qolgan varaqlar yo'q."},
+    {"id": "docs", "icon": "📝", "name": "Qoralama, javoblar va hujjatlar", "short": "Hujjat tayyorlash daqiqalarda", "text": "Shablonlar asosida xulosa, ma'lumotnoma va javob xatlari bir necha bosishda tayyorlanadi. Shifokor vaqti bemorga ketadi, qog'ozga emas."},
+    {"id": "dash", "icon": "📊", "name": "Real vaqtdagi dashboard", "short": "Har bir daromad — analitikada", "text": "Kunlik tushum, shifokorlar yuklamasi, eng ko'p murojaat qilingan xizmatlar — hammasi real vaqtda. Rahbar klinikani telefonidan boshqaradi."},
+    {"id": "doctor", "icon": "👨‍⚕️", "name": "Shifokor kabineti", "short": "Ish jadvali va bemorlar ro'yxati", "text": "Shifokor kundalik jadvali, bemorlar ro'yxati va kerakli vositalarni bitta interfeysda ko'radi. Tibbiyotga ko'proq vaqt ajratadi."},
+    {"id": "find", "icon": "🔎", "name": "Bemorlar uchun shifokor topish", "short": "Profil, reyting va qulay klinika", "text": "Bemor mos mutaxassisni topadi, uning profili bilan tanishadi va qulay klinikani tanlaydi. Klinikangizga yangi bemorlar oqimi."}
+  ],
+  "roles": {
+    "clinic": {"icon": "🏥", "name": "Klinika rahbari", "text": "Tibbit klinika boshqaruvi, shifokorlar faoliyati va bemorlar bilan ishlash jarayonlarini yagona raqamli ekotizimda birlashtiradi.\n\n✅ Rutina 40% gacha kamayadi\n✅ Har bir daromad — analitikada\n✅ Administratorga bog'liqlik yo'qoladi\n\nBepul demo'da klinikangiz misolida ko'rsatamiz 👇"},
+    "doctor": {"icon": "👨‍⚕️", "name": "Shifokor", "text": "Tibbiyotga ko'proq vaqt ajrating.\n\nShifokorning ish-faoliyati bemor kartasidan tortib, ish jadvaligacha — hammasi bitta interfeysda:\n\n📅 Kundalik jadval va navbat\n🗂 Bemorlar tarixi bir bosishda\n📝 Xulosa va hujjatlar shablon bilan\n\nKlinikangizga Tibbit'ni tavsiya qiling 👇"},
+    "patient": {"icon": "🙋", "name": "Bemor", "text": "Shifokor topish endi osonroq.\n\nTibbit sizga mos mutaxassisni topish, uning profili bilan tanishish va qulay klinikani tanlashga yordam beradi.\n\nOnlayn yozilish qanday ishlashini hozir sinab ko'ring — demo yozuvdan so'ng bot sizga eslatma ham yuboradi 👇"}
+  },
+  "clinic_sizes": ["1–5 shifokor", "6–15 shifokor", "16–50 shifokor", "50+ shifokor"],
+  "demo": {
+    "specialties": [
+      {"id": "ter", "icon": "🩺", "name": "Terapevt"},
+      {"id": "kar", "icon": "❤️", "name": "Kardiolog"},
+      {"id": "ped", "icon": "🧸", "name": "Pediatr"},
+      {"id": "sto", "icon": "🦷", "name": "Stomatolog"}
+    ],
+    "doctors": [
+      {"id": "d1", "spec": "ter", "name": "Dr. Aziza R.", "exp": "12 yil", "rating": "4.9"},
+      {"id": "d2", "spec": "ter", "name": "Dr. Bekzod T.", "exp": "8 yil", "rating": "4.8"},
+      {"id": "d3", "spec": "kar", "name": "Dr. Nodira S.", "exp": "15 yil", "rating": "5.0"},
+      {"id": "d4", "spec": "ped", "name": "Dr. Malika Y.", "exp": "10 yil", "rating": "4.9"},
+      {"id": "d5", "spec": "sto", "name": "Dr. Javohir K.", "exp": "7 yil", "rating": "4.7"}
+    ],
+    "slots": ["09:00", "09:30", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+  },
+  "faq": [
+    ["Tibbit nima?", "Tibbit — tibbiy amaliyotni rivojlantirayotgan ekotizim. Klinika boshqaruvi, shifokorning kundalik ishi va bemorlar uchun raqamli xizmatlarni birlashtiramiz. Shu sababli bu oddiy CRM'dan kengroq."],
+    ["Kichik klinikaga ham mosmi?", "Ha. Tizim 1–2 shifokorli xususiy kabinetdan tortib ko'p filialli klinikagacha moslashadi."],
+    ["Joriy qilish qancha vaqt oladi?", "Odatda bir necha kun: ma'lumotlarni ko'chirish va xodimlarni o'qitishda jamoamiz yordam beradi."],
+    ["Bemorlar ma'lumoti xavfsizmi?", "Ma'lumotlar himoyalangan serverlarda saqlanadi, har bir xodim faqat o'ziga ruxsat berilgan qismni ko'radi."],
+    ["Narxi qancha?", "Narx klinika hajmi va kerakli modullarga bog'liq. Bepul demo'dan so'ng aniq taklif beramiz."]
+  ]
+}

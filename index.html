@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Tibbit</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cobalt:#1458ff; --deep:#0828aa; --sky:#5aaaff; --ice:#eef4ff; --line:#d9e5ff;
+  --ink:#0c1c50; --muted:#5b6b95; --white:#fff; --ok:#10b981;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{font-family:Onest,system-ui,sans-serif;color:var(--ink);background:var(--ice);min-height:100vh;padding-bottom:28px}
+.hidden{display:none!important}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(160deg,var(--cobalt),var(--deep));color:var(--white);padding:16px 18px 74px;border-radius:0 0 34px 34px}
+.hero svg.rib{position:absolute;right:-60px;top:-30px;width:300px;height:300px;opacity:.95;pointer-events:none}
+.brandrow{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.35em;color:#cfe0ff;position:relative}
+.hero h1{position:relative;margin:26px 0 4px;font-size:40px;font-weight:700;letter-spacing:-.02em}
+.hero p{position:relative;margin:0;color:#d6e4ff;font-size:15px;max-width:230px}
+
+/* segmented */
+.seg{position:relative;z-index:2;margin:-30px 16px 0;background:var(--white);border-radius:20px;padding:5px;display:grid;grid-template-columns:repeat(3,1fr);box-shadow:0 12px 30px rgba(8,40,170,.15)}
+.seg button{border:0;background:none;font:600 13px Onest;color:var(--muted);padding:12px 4px;border-radius:15px;cursor:pointer}
+.seg button.on{background:var(--cobalt);color:var(--white)}
+
+main{padding:0 16px;max-width:560px;margin:0 auto}
+h2{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:24px 2px 12px}
+h2 em{font-style:normal;color:var(--cobalt)}
+
+/* pains: chizilgan muammo -> yechim */
+.pain{background:var(--white);border-radius:20px;padding:14px 16px;margin-bottom:10px;border:1px solid var(--line)}
+.pain s{display:block;color:#93a3c7;font-size:13px;margin-bottom:8px}
+.pain span{display:inline-block;background:var(--cobalt);color:var(--white);font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px}
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mod{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:14px;cursor:pointer;transition:.15s}
+.mod.open{grid-column:1/-1;border-color:var(--cobalt);box-shadow:0 0 0 3px rgba(20,88,255,.12)}
+.mod i{font-style:normal;font-size:22px}
+.mod b{display:block;font-size:14px;margin:8px 0 4px;line-height:1.25}
+.mod small{color:var(--muted);font-size:12.5px;line-height:1.35;display:block}
+.mod p{display:none;margin:10px 0 0;font-size:14px;line-height:1.45;color:#2b3a66}
+.mod.open p{display:block}
+
+.cta{display:block;width:100%;border:0;border-radius:18px;padding:16px;margin-top:16px;font:700 15px Onest;color:var(--white);
+  background:linear-gradient(135deg,var(--cobalt),#3d7bff);box-shadow:0 10px 24px rgba(20,88,255,.35);cursor:pointer}
+.cta:disabled{opacity:.4;box-shadow:none}
+.cta.light{background:var(--white);color:var(--cobalt);box-shadow:none;border:1.5px solid var(--line)}
+.fine{text-align:center;color:var(--muted);font-size:12px;margin-top:10px}
+
+/* calc */
+.card{background:var(--white);border-radius:24px;padding:18px;border:1px solid var(--line)}
+.field{margin-bottom:20px}
+.field:last-child{margin-bottom:4px}
+.field label{display:flex;justify-content:space-between;align-items:baseline;font-weight:600;font-size:14px}
+.field label output{font-size:22px;font-weight:800;color:var(--cobalt)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:8px;margin-top:12px;
+  background:linear-gradient(90deg,var(--cobalt) var(--p,50%),var(--line) var(--p,50%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--white);border:6px solid var(--cobalt);box-shadow:0 3px 10px rgba(8,40,170,.3)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--white);border:6px solid var(--cobalt)}
+.result{margin-top:14px;border-radius:24px;padding:20px 18px;color:var(--white);background:linear-gradient(150deg,var(--cobalt),var(--deep));position:relative;overflow:hidden}
+.result .k{font-size:13px;color:#cfe0ff}
+.result .v{font-size:46px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.result .v small{font-size:18px;font-weight:600;color:#cfe0ff}
+.result .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.result .row div{background:rgba(255,255,255,.12);border-radius:16px;padding:10px 12px}
+.result .row b{display:block;font-size:20px}
+.result .row span{font-size:12px;color:#d6e4ff}
+.bar{display:flex;height:12px;border-radius:12px;overflow:hidden;margin-top:14px;background:rgba(255,255,255,.18)}
+.bar i{display:block;background:#7cc0ff;transition:width .3s}
+
+/* booking */
+.steps{display:flex;gap:6px;margin:20px 2px 4px}
+.steps i{flex:1;height:5px;border-radius:5px;background:var(--line)}
+.steps i.on{background:var(--cobalt)}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.spec{background:var(--white);border:1.5px solid var(--line);border-radius:20px;padding:16px 14px;cursor:pointer;font-weight:600}
+.spec i{font-style:normal;font-size:26px;display:block;margin-bottom:8px}
+.spec.on,.doc.on{border-color:var(--cobalt);box-shadow:0 0 0 3px rgba(20,88,255,.12)}
+.doc{display:flex;align-items:center;gap:12px;background:var(--white);border:1.5px solid var(--line);border-radius:20px;padding:12px 14px;margin-bottom:10px;cursor:pointer}
+.ava{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:800;color:var(--white);background:linear-gradient(135deg,var(--sky),var(--cobalt))}
+.doc b{display:block;font-size:15px}
+.doc small{color:var(--muted)}
+.doc .rt{margin-left:auto;font-weight:700;color:var(--cobalt);font-size:14px}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{text-align:center;background:var(--white);border:1.5px solid var(--line);border-radius:14px;padding:11px 0;font-weight:700;font-size:14px;cursor:pointer}
+.slot.on{background:var(--cobalt);border-color:var(--cobalt);color:var(--white)}
+.slot.busy{color:#b8c3de;text-decoration:line-through;pointer-events:none;background:#f6f8fe}
+.sum{background:var(--white);border-radius:20px;border:1px dashed var(--cobalt);padding:14px 16px;margin-top:16px;font-size:14px;line-height:1.6}
+.demo-note{display:inline-block;margin:2px 2px 0;font-size:12px;color:var(--cobalt);background:#dfe9ff;padding:5px 10px;border-radius:999px;font-weight:600}
+</style>
+</head>
+<body>
+<header class="hero">
+  <svg class="rib" viewBox="0 0 300 300" aria-hidden="true">
+    <defs>
+      <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8cc8ff"/><stop offset=".5" stop-color="#2f74ff"/><stop offset="1" stop-color="#0b3bd6"/></linearGradient>
+      <filter id="b"><feGaussianBlur stdDeviation="1.2"/></filter>
+    </defs>
+    <path d="M40 300 C 60 190, 250 230, 220 120 S 120 20, 170 -20" stroke="url(#g1)" stroke-width="46" fill="none" stroke-linecap="round" filter="url(#b)"/>
+    <path d="M30 292 C 50 184, 240 224, 210 114 S 110 14, 160 -26" stroke="#e6f3ff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/>
+  </svg>
+  <div class="brandrow"><span>TIBBIT</span><span>UZ</span></div>
+  <h1>Tibbit</h1>
+  <p id="tagline"></p>
+</header>
+
+<div class="seg">
+  <button data-tab="about" class="on">Imkoniyatlar</button>
+  <button data-tab="calc">Hisoblagich</button>
+  <button data-tab="book">Yozilish</button>
+</div>
+
+<main>
+  <!-- IMKONIYATLAR -->
+  <section id="tab-about">
+    <h2>Tibbit <em>og'riqdan</em> boshlaydi</h2>
+    <div id="pains"></div>
+    <h2>Modullar</h2>
+    <div class="mods" id="mods"></div>
+    <button class="cta" data-go="demo">Bepul demo olish</button>
+  </section>
+
+  <!-- HISOBLAGICH -->
+  <section id="tab-calc" class="hidden">
+    <h2>Klinikangiz qancha <em>vaqt</em> tejaydi?</h2>
+    <div class="card">
+      <div class="field"><label>Shifokorlar soni <output id="oD"></output></label><input type="range" id="iD" min="1" max="60" value="8"></div>
+      <div class="field"><label>Bir shifokorga kuniga bemor <output id="oP"></output></label><input type="range" id="iP" min="3" max="40" value="15"></div>
+      <div class="field"><label>Bir bemorga yozuv va hujjat, daq <output id="oM"></output></label><input type="range" id="iM" min="2" max="20" value="7"></div>
+    </div>
+    <div class="result">
+      <div class="k">Tibbit bilan tejaladigan vaqt</div>
+      <div class="v"><span id="rH">0</span> <small>soat / oy</small></div>
+      <div class="bar"><i id="barNow" style="width:60%"></i></div>
+      <div class="row">
+        <div><b id="rDaily">0</b><span>soat/kun hozir qog'ozga</span></div>
+        <div><b id="rExtra">0</b><span>qo'shimcha qabul / oy</span></div>
+      </div>
+    </div>
+    <button class="cta" id="sendCalc">Natija bilan demo so'rash</button>
+    <div class="fine">Taxminiy hisob: Tibbit ma'lumotiga ko'ra rutina 40% gacha kamayadi · oyiga 26 ish kuni</div>
+  </section>
+
+  <!-- YOZILISH (bemor demo) -->
+  <section id="tab-book" class="hidden">
+    <h2>Shifokorga <em>onlayn</em> yozilish</h2>
+    <span class="demo-note">Demo: klinikangiz bemorlari shunday yoziladi</span>
+    <div class="steps"><i class="on"></i><i></i><i></i></div>
+    <div id="bStep1"><div class="specs" id="specs"></div></div>
+    <div id="bStep2" class="hidden"><div id="docs"></div></div>
+    <div id="bStep3" class="hidden">
+      <div style="font-weight:700;margin:8px 2px 10px">Ertaga · bo'sh vaqtlar</div>
+      <div class="slots" id="slots"></div>
+      <div class="sum" id="bSum"></div>
+    </div>
+    <button class="cta" id="bNext" disabled>Davom etish</button>
+    <button class="cta light hidden" id="bBack">Orqaga</button>
+  </section>
+</main>
+
+<script>
+const tg = window.Telegram && Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor('#1458ff'); tg.setBackgroundColor('#eef4ff'); } catch(e){} }
+const $ = id => document.getElementById(id);
+const haptic = t => { try { tg.HapticFeedback.impactOccurred(t || 'light'); } catch(e){} };
+const inTg = () => tg && tg.platform !== "unknown";
+let B;
+
+function toBot(payload, startParam) {
+  const viaKeyboard = inTg() && tg.initDataUnsafe && !tg.initDataUnsafe.query_id;
+  if (viaKeyboard) { tg.sendData(JSON.stringify(payload)); return; }
+  const url = `https://t.me/${B.bot_username}?start=${startParam}`;
+  if (inTg()) { tg.openTelegramLink(url); setTimeout(() => tg.close(), 300); } else location.href = url;
+}
+
+function show(tab) {
+  document.querySelectorAll(".seg button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  ["about","calc","book"].forEach(t => $("tab-"+t).classList.toggle("hidden", t !== tab));
+}
+document.querySelectorAll(".seg button").forEach(b => b.onclick = () => { haptic(); show(b.dataset.tab); });
+document.querySelector("[data-go=demo]").onclick = () => { haptic("medium"); toBot({type:"demo"}, "demo"); };
+
+/* about */
+function renderAbout() {
+  $("pains").innerHTML = B.pains.map(p => `<div class="pain"><s>${p.old}</s><span>${p.new}</span></div>`).join("");
+  $("mods").innerHTML = B.modules.map(m => `<div class="mod" data-id="${m.id}"><i>${m.icon}</i><b>${m.name}</b><small>${m.short}</small><p>${m.text}</p></div>`).join("");
+  $("mods").querySelectorAll(".mod").forEach(el => el.onclick = () => {
+    haptic(); const open = el.classList.contains("open");
+    $("mods").querySelectorAll(".mod").forEach(x => x.classList.remove("open"));
+    if (!open) el.classList.add("open");
+  });
+}
+
+/* calc */
+const fmt = n => Math.round(n).toLocaleString("ru");
+function updCalc() {
+  const D = +$("iD").value, P = +$("iP").value, M = +$("iM").value;
+  [["iD","oD"],["iP","oP"],["iM","oM"]].forEach(([i,o]) => {
+    const el = $(i); $(o).textContent = el.value;
+    el.style.setProperty("--p", ((el.value - el.min) / (el.max - el.min) * 100) + "%");
+  });
+  const daily = D * P * M, savedDay = daily * B.routine_cut;
+  $("rH").textContent = fmt(savedDay * 26 / 60);
+  $("rDaily").textContent = (daily / 60).toFixed(1);
+  $("rExtra").textContent = fmt(savedDay * 26 / 20);
+  $("barNow").style.width = (B.routine_cut * 100) + "%";
+}
+["iD","iP","iM"].forEach(i => $(i).oninput = () => { updCalc(); });
+$("sendCalc").onclick = () => {
+  haptic("medium");
+  const D = $("iD").value, P = $("iP").value, M = $("iM").value;
+  toBot({type:"calc", doctors:+D, patients:+P, minutes:+M}, `r_${D}_${P}_${M}`);
+};
+
+/* booking demo */
+let step = 1, spec = null, doc = null, slot = null;
+const busy = new Set([1, 4, 6]);
+function renderSpecs() {
+  $("specs").innerHTML = B.demo.specialties.map(s => `<div class="spec ${s.id===spec?"on":""}" data-id="${s.id}"><i>${s.icon}</i>${s.name}</div>`).join("");
+  $("specs").querySelectorAll(".spec").forEach(el => el.onclick = () => { haptic(); spec = el.dataset.id; doc = null; renderSpecs(); syncBtn(); });
+}
+function renderDocs() {
+  const list = B.demo.doctors.filter(d => d.spec === spec);
+  $("docs").innerHTML = list.map(d => `<div class="doc ${d.id===doc?"on":""}" data-id="${d.id}"><div class="ava">${d.name.split(" ")[1][0]}</div><div><b>${d.name}</b><small>Tajriba: ${d.exp}</small></div><div class="rt">★ ${d.rating}</div></div>`).join("");
+  $("docs").querySelectorAll(".doc").forEach(el => el.onclick = () => { haptic(); doc = el.dataset.id; renderDocs(); syncBtn(); });
+}
+function renderSlots() {
+  $("slots").innerHTML = B.demo.slots.map((t,i) => `<div class="slot ${busy.has(i)?"busy":""} ${i===slot?"on":""}" data-i="${i}">${t}</div>`).join("");
+  $("slots").querySelectorAll(".slot").forEach(el => el.onclick = () => { haptic(); slot = +el.dataset.i; renderSlots(); syncBtn(); });
+  const d = B.demo.doctors.find(x => x.id === doc), s = B.demo.specialties.find(x => x.id === spec);
+  $("bSum").innerHTML = `${s.icon} ${s.name} · <b>${d.name}</b><br>🗓 Ertaga${slot!==null?`, <b>${B.demo.slots[slot]}</b>`:" — vaqtni tanlang"}<br>🏥 Tibbit Demo Klinika`;
+}
+function syncBtn() {
+  $("bNext").disabled = (step === 1 && !spec) || (step === 2 && !doc) || (step === 3 && slot === null);
+  $("bNext").textContent = step === 3 ? "Yozilishni tasdiqlash" : "Davom etish";
+  $("bBack").classList.toggle("hidden", step === 1);
+  document.querySelectorAll(".steps i").forEach((el, i) => el.classList.toggle("on", i < step));
+  [1,2,3].forEach(n => $("bStep"+n).classList.toggle("hidden", n !== step));
+}
+$("bNext").onclick = () => {
+  haptic("medium");
+  if (step === 3) { toBot({type:"book", doctor:doc, slot}, `b_${doc}_${slot}`); return; }
+  step++; if (step === 2) renderDocs(); if (step === 3) { slot = null; renderSlots(); }
+  syncBtn(); window.scrollTo(0, 0);
+};
+$("bBack").onclick = () => { haptic(); step--; syncBtn(); };
+
+fetch("brand.json").then(r => r.json()).then(data => {
+  B = data;
+  $("tagline").textContent = B.tagline;
+  renderAbout(); updCalc(); renderSpecs(); syncBtn();
+  const tab = new URLSearchParams(location.search).get("tab");
+  if (tab === "calc" || tab === "book") show(tab);
+});
+</script>
+</body>
+</html>
